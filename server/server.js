@@ -51,7 +51,7 @@ app.get('/todos/:id', (req, res) =>{
 
 
 app.listen(port, () =>{
-    console.log(`Server running on port 300 ${port}`);
+    console.log(`Server running on port  ${port}`);
 });
 
 module.exports = {app};
