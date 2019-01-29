@@ -42,16 +42,6 @@ app.post('/users', (req, res) =>{
 
 app.get('/users/me', auth, (req, res) =>{
    res.send(req.user);
-// var token = req.header('x-auth');
-//     console.log(token);
-//     Users.findByToken(token).then((user)=>{
-//         if(!user){
-//             return Promise.reject();
-//         }
-//         res.send(user);
-//         }).catch((e) =>{
-//         res.status(401).send();
-//     });
 });
 
 app.get('/todos', (req, res) =>{
