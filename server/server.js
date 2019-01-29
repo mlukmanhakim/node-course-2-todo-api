@@ -7,6 +7,7 @@ const _ = require('lodash');
 var {mongoose} = require('./db/mongoose');
 var {Todo}  = require('./models/todo');
 var {Users} = require('./models/users');
+var {auth} = require('./middleware/auth');
 
 
 var app = express();
@@ -32,11 +33,25 @@ app.post('/users', (req, res) =>{
 
     user.save().then(() =>{
         return user.generateAuthToken();
-    }).then((token) =>{
+     }).then((token) =>{
         res.header('x-auth', token).send(user)
     }).catch((e) =>{
         res.status(400).send(e);
     })
+});
+
+app.get('/users/me', auth, (req, res) =>{
+   res.send(req.user);
+// var token = req.header('x-auth');
+//     console.log(token);
+//     Users.findByToken(token).then((user)=>{
+//         if(!user){
+//             return Promise.reject();
+//         }
+//         res.send(user);
+//         }).catch((e) =>{
+//         res.status(401).send();
+//     });
 });
 
 app.get('/todos', (req, res) =>{
@@ -87,7 +102,6 @@ app.patch('/todos/:id', (req, res) =>{
     }
     if(_.isBoolean(body.completed) && body.completed){
         body.completedAt = new Date().getTime();
-
     }else{
         body.completed = false;
         body.completedAt = null;
